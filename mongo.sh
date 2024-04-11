@@ -30,3 +30,16 @@ fi
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "mongodb repo copied"
+
+dnf install mongodb-org -y  &>> $LOGFILE
+
+VALIDATE $? "installing mongodb"
+
+systemctl enable mongod &>> $LOGFILE
+VALIDATE $? "enable ,mongodb"
+
+systemctl start mongod &>> $LOGFILE
+VALIDATE $? "start mongodb"
+
+sed -i 's/127.0.0.0/0.0.0.0/g' /etc/mongod.conf &>> $LOGFILE
+VALIDATE $? "edit config file"
